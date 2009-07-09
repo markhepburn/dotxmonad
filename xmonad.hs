@@ -84,7 +84,7 @@ myManageHook = composeAll
     , title     =? "Ediff"                --> doFloat
     -- that quick-search box used by gmarks in firefox:
     , (title    =? "Quick Search"
-       <&&> className =? "Firefox")       --> doFloat
+       <&&> className =? "Shiretoko")     --> doFloat
     -- Forces typing-break to always open on the left screen (which is #1, not 0 because of my monitor orientation):
 --    , className =? "Gnome-typing-monitor" --> doF (\w -> (flip W.shift) w $ fromJust $ W.lookupWorkspace 1 w)
     ]
