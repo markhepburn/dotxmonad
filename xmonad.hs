@@ -79,7 +79,8 @@ myManageHook = composeAll
     , className =? "Evolution"            --> doF (W.shift "1") -- open evolution on first work-space
     , className =? "Thunderbird-bin"      --> doF (W.shift "1") -- open thunderbird on first work-space
     , resource  =? "desktop_window"       --> doIgnore
-    , resource  =? "gnome-panel"          --> doIgnore
+    , (title =? "Top Expanded Edge Panel"
+       <&&> resource  =? "gnome-panel")   --> doIgnore
     , resource  =? "kdesktop"             --> doIgnore
     , title     =? "Ediff"                --> doFloat
     -- that quick-search box used by gmarks in firefox:
