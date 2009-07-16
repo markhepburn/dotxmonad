@@ -81,6 +81,8 @@ myManageHook = composeAll
     , resource  =? "desktop_window"       --> doIgnore
     , (title =? "Top Expanded Edge Panel"
        <&&> resource  =? "gnome-panel")   --> doIgnore
+    , (title =? "Calendar"
+       <&&> resource  =? "gnome-panel")   --> doIgnore
     , resource  =? "kdesktop"             --> doIgnore
     , title     =? "Ediff"                --> doFloat
     -- that quick-search box used by gmarks in firefox:
