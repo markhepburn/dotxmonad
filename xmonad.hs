@@ -75,6 +75,7 @@ myManageHook = composeAll
     , (className =? "Nautilus" <&&>
        title /=? "x-nautilus-desktop")    --> doFloat -- need to exclude desktop or selection doesn't work
     , className =? "Skype"                --> doFloat
+    , className =? "Tsclient"             --> doFloat
     , className =? "VirtualBox"           --> doFloat
     , className =? "Evolution"            --> doF (W.shift "1") -- open evolution on first work-space
     , className =? "Thunderbird-bin"      --> doF (W.shift "1") -- open thunderbird on first work-space
