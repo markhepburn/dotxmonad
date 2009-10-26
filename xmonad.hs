@@ -46,7 +46,7 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
     -- well, and appending the arguments to the main argument also
     -- doesn't work.
     [ ((modMask .|. shiftMask, xK_w           ),
-       dynamicLogString myPP >>= \s -> safeSpawn "notify-send" s)]
+       dynamicLogString myPP >>= \s -> safeSpawn "notify-send" [s])]
                                                    
     ++
 
