@@ -27,17 +27,6 @@ myPP = defaultPP
 ------------------------------------------------------------------------
 -- Key bindings.
 myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
-    -- mod-{w,e,r}, Switch to physical/Xinerama screens 1, 2, or 3
-    -- mod-shift-{w,e,r}, Move client to screen 1, 2, or 3
-    --
-    -- Note (hep016): e/w flipped because of the way I have my screens
-    -- set up, to preserve the left-right orientation.
-    -- [((m .|. modMask, key), screenWorkspace sc >>= flip whenJust (windows . f))
-    --     | (key, sc) <- zip [xK_e, xK_w, xK_r] [0..]
-    --     , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]]
-
-   -- ++
-
     -- Not using this at the moment until I think of a better key
     -- combination, now that I have dual monitors working again!:
 
