@@ -74,7 +74,6 @@ myManageHook = composeAll
     , className =? "Gcalctool"            --> doFloat
     , className =? "Gimp"                 --> doFloat
     , className =? "Gnome-typing-monitor" --> doFloat
-    , className =? "Mumbles"              --> doFloat
     , (className =? "Nautilus" <&&>
        title /=? "x-nautilus-desktop")    --> doFloat -- need to exclude desktop or selection doesn't work
     , className =? "Skype"                --> doFloat
