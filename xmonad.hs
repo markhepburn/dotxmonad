@@ -58,17 +58,21 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
 -- and click on the client you're interested in.
 --
 myManageHook = composeAll
-    [ className =? "Gmrun"                --> doCenterFloat
-    , className =? "MPlayer"              --> doFloat
+    [ title     =? "Ediff"                --> doFloat
+    , className =? "File-roller"          --> doFloat
     , className =? "Gcalctool"            --> doFloat
     , className =? "Gimp"                 --> doFloat
+    , className =? "Gmrun"                --> doCenterFloat
     , className =? "Gnome-typing-monitor" --> doFloat
+    , className =? "MPlayer"              --> doFloat
     , (className =? "Nautilus" <&&>
        title /=? "x-nautilus-desktop")    --> doFloat -- need to exclude desktop or selection doesn't work
+    -- that quick-search box used by gmarks in firefox:
+    , (title    =? "Quick Search"
+       <&&> className =? "Firefox")       --> doFloat
     , className =? "Skype.real"           --> doCenterFloat
     , className =? "Tsclient"             --> doFloat
     , className =? "VirtualBox"           --> doFloat
-    , className =? "Evolution"            --> doF (W.shift "1") -- open evolution on first work-space
     , className =? "Thunderbird-bin"      --> doF (W.shift "1") -- open thunderbird on first work-space
     , resource  =? "desktop_window"       --> doIgnore
     , (title =? "Top Expanded Edge Panel"
@@ -76,10 +80,6 @@ myManageHook = composeAll
     , (title =? "Calendar"
        <&&> resource  =? "gnome-panel")   --> doIgnore
     , resource  =? "kdesktop"             --> doIgnore
-    , title     =? "Ediff"                --> doFloat
-    -- that quick-search box used by gmarks in firefox:
-    , (title    =? "Quick Search"
-       <&&> className =? "Shiretoko")     --> doFloat
     -- Forces typing-break to always open on the left screen (which is #1, not 0 because of my monitor orientation):
 --    , className =? "Gnome-typing-monitor" --> doF (\w -> (flip W.shift) w $ fromJust $ W.lookupWorkspace 1 w)
     ]
