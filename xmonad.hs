@@ -1,4 +1,6 @@
 import Data.Maybe
+import Data.Monoid
+import Graphics.X11.Xlib.Extras
 import XMonad
 import XMonad.Actions.CycleWS
 import XMonad.Config.Gnome
@@ -83,12 +85,25 @@ myManageHook = composeAll
     -- Forces typing-break to always open on the left screen (which is #1, not 0 because of my monitor orientation):
 --    , className =? "Gnome-typing-monitor" --> doF (\w -> (flip W.shift) w $ fromJust $ W.lookupWorkspace 1 w)
     ]
- 
+
+-- From http://hpaste.org/fastcgi/hpaste.fcgi/view?id=8416#a8416
+-- Specify a workspace(s) to use focusFollowsMouse on (such as for use with gimp):
+followOnWorkspaces = ["9"]
+
+followEventHook e@(CrossingEvent {ev_window = w, ev_event_type = t})
+    | t == enterNotify && ev_mode   e == notifyNormal
+    = let follow = flip elem followOnWorkspaces `fmap` gets (W.currentTag . windowset)
+      in whenX follow (focus w) >> return (All False)
+    | otherwise = return $ All True
+followEventHook _ = return $ All True
+
+
 main = spawn "xcompmgr" >> myConfig
     where myConfig = xmonad $ gnomeConfig {
          terminal          = "urxvt"
        , logHook           = logHook gnomeConfig >> setWMName "LG3D"
        , layoutHook        = smartBorders $ layoutHook gnomeConfig
+       , handleEventHook   = followEventHook
        , manageHook        = myManageHook
        , focusFollowsMouse = False
        , normalBorderColor = "#dddddd" -- not sold on the default "grey" colour
