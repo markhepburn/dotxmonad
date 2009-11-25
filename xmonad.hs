@@ -5,6 +5,7 @@ import XMonad
 import XMonad.Actions.CycleWS
 import XMonad.Config.Gnome
 import XMonad.Hooks.SetWMName
+import XMonad.Layout.MagicFocus (followOnlyIf, disableFollowOnWS)
 import XMonad.Layout.NoBorders
 import XMonad.Util.Run (safeSpawn)
 import XMonad.Hooks.DynamicLog (dynamicLogString, PP(..), defaultPP)
@@ -86,17 +87,11 @@ myManageHook = composeAll
 --    , className =? "Gnome-typing-monitor" --> doF (\w -> (flip W.shift) w $ fromJust $ W.lookupWorkspace 1 w)
     ]
 
--- From http://hpaste.org/fastcgi/hpaste.fcgi/view?id=8416#a8416
 -- Specify a workspace(s) to use focusFollowsMouse on (such as for use with gimp):
-followOnWorkspaces = ["9"]
-
-followEventHook e@(CrossingEvent {ev_window = w, ev_event_type = t})
-    | t == enterNotify && ev_mode   e == notifyNormal
-    = let follow = flip elem followOnWorkspaces `fmap` gets (W.currentTag . windowset)
-      in whenX follow (focus w) >> return (All False)
-    | otherwise = return $ All True
-followEventHook _ = return $ All True
-
+-- We will disable follow-mouse on all but the last:
+followEventHook = followOnlyIf $ disableFollowOnWS allButLastWS
+    where allButLastWS = tail . reverse $ allWS
+          allWS        = workspaces gnomeConfig
 
 main = spawn "xcompmgr" >> myConfig
     where myConfig = xmonad $ gnomeConfig {
