@@ -90,7 +90,7 @@ myManageHook = composeAll
 -- Specify a workspace(s) to use focusFollowsMouse on (such as for use with gimp):
 -- We will disable follow-mouse on all but the last:
 followEventHook = followOnlyIf $ disableFollowOnWS allButLastWS
-    where allButLastWS = tail . reverse $ allWS
+    where allButLastWS = init allWS
           allWS        = workspaces gnomeConfig
 
 main = spawn "xcompmgr" >> myConfig
