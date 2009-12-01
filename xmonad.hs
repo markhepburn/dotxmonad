@@ -8,43 +8,14 @@ import XMonad.Hooks.SetWMName
 import XMonad.Layout.MagicFocus (followOnlyIf, disableFollowOnWS)
 import XMonad.Layout.NoBorders
 import XMonad.Util.Run (safeSpawn)
-import XMonad.Hooks.DynamicLog (dynamicLogString, PP(..), defaultPP)
 import XMonad.Hooks.ManageHelpers (doCenterFloat, (/=?))
  
 import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
 
-
--- dynamicLog theme (suppress everything but window title)
-myPP = defaultPP
-    { ppLayout          = const ""
-    , ppCurrent         = const ""
-    , ppVisible         = const ""
-    , ppHidden          = const ""
-    , ppHiddenNoWindows = const ""
-    , ppUrgent          = const ""
-    , ppTitle           = id
-    , ppWsSep           = ""
-    , ppSep             = "" }
-
 ------------------------------------------------------------------------
 -- Key bindings.
 myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
-    -- Not using this at the moment until I think of a better key
-    -- combination, now that I have dual monitors working again!:
-
-    -- -- this currently has problems; it doesn't always work on firefox.
-    -- -- I'm not sure why,but I presume it is to do with the text that
-    -- -- is being passed to firefox, via the shell (eg, it could contain
-    -- -- '&', '#', etc.  An alternative is safeSpawn, but as far as I
-    -- -- can tell that won't accept the string containing the icon as
-    -- -- well, and appending the arguments to the main argument also
-    -- -- doesn't work.
-    -- [ ((modMask .|. shiftMask, xK_w           ),
-    --    dynamicLogString myPP >>= \s -> safeSpawn "notify-send" [s])]
-                                                   
-    -- ++
-
     -- Basic CycleWS setup (not using left/right because that clashes
     -- with browser history navigation):
     [ ((modMask,               xK_bracketright),  nextWS     )
