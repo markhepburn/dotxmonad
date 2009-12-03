@@ -8,7 +8,7 @@ import XMonad.Hooks.SetWMName
 import XMonad.Layout.MagicFocus (followOnlyIf, disableFollowOnWS)
 import XMonad.Layout.NoBorders
 import XMonad.Util.Run (safeSpawn)
-import XMonad.Hooks.ManageHelpers (doCenterFloat, (/=?))
+import XMonad.Hooks.ManageHelpers (doCenterFloat, (/=?), isInProperty)
  
 import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
@@ -23,7 +23,9 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
     , ((modMask .|. shiftMask, xK_bracketright),  shiftToNext)
     , ((modMask .|. shiftMask, xK_bracketleft ),  shiftToPrev)
     ]
- 
+
+isSplash = isInProperty "_NET_WM_WINDOW_TYPE" "_NET_WM_WINDOW_TYPE_SPLASH"
+
 ------------------------------------------------------------------------
 -- Window rules:
  
@@ -48,6 +50,7 @@ myManageHook = composeAll
     , className =? "Tsclient"             --> doFloat
     , className =? "VirtualBox"           --> doFloat
     , className =? "Thunderbird-bin"      --> doF (W.shift "1") -- open thunderbird on first work-space
+    , isSplash                            --> doIgnore
     , resource  =? "desktop_window"       --> doIgnore
     , (title =? "Top Expanded Edge Panel"
        <&&> resource  =? "gnome-panel")   --> doIgnore
