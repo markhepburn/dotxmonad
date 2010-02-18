@@ -1,14 +1,12 @@
-import Data.Maybe
-import Data.Monoid
-import Graphics.X11.Xlib.Extras
+import Data.Monoid                (mappend)
 import XMonad
-import XMonad.Actions.CycleWS
-import XMonad.Config.Gnome
-import XMonad.Hooks.ManageHelpers (doCenterFloat, (/=?), isInProperty, isFullscreen, (-?>), doFullFloat)
-import XMonad.Hooks.SetWMName
-import XMonad.Layout.MagicFocus (followOnlyIf, disableFollowOnWS)
-import XMonad.Layout.NoBorders
-import XMonad.Util.Run (safeSpawn)
+import XMonad.Actions.CycleWS     (nextWS, prevWS, shiftToNext, shiftToPrev)
+import XMonad.Config.Gnome        (gnomeConfig)
+import XMonad.Hooks.ManageHelpers (doCenterFloat, (/=?), isInProperty, isFullscreen, (-?>), doFullFloat, composeOne)
+import XMonad.Hooks.SetWMName     (setWMName)
+import XMonad.Layout.MagicFocus   (followOnlyIf, disableFollowOnWS)
+import XMonad.Layout.NoBorders    (smartBorders)
+import XMonad.Util.Run            (safeSpawn)
  
 import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
