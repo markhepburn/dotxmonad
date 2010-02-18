@@ -4,11 +4,11 @@ import Graphics.X11.Xlib.Extras
 import XMonad
 import XMonad.Actions.CycleWS
 import XMonad.Config.Gnome
+import XMonad.Hooks.ManageHelpers (doCenterFloat, (/=?), isInProperty, isFullscreen, (-?>), doFullFloat)
 import XMonad.Hooks.SetWMName
 import XMonad.Layout.MagicFocus (followOnlyIf, disableFollowOnWS)
 import XMonad.Layout.NoBorders
 import XMonad.Util.Run (safeSpawn)
-import XMonad.Hooks.ManageHelpers (doCenterFloat, (/=?), isInProperty)
  
 import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
@@ -60,6 +60,9 @@ myManageHook = composeAll
     -- Forces typing-break to always open on the left screen (which is #1, not 0 because of my monitor orientation):
 --    , className =? "Gnome-typing-monitor" --> doF (\w -> (flip W.shift) w $ fromJust $ W.lookupWorkspace 1 w)
     ]
+    <+>
+    composeOne [ isFullscreen -?> doFullFloat ] -- Fix flash fullscreen; see
+                                                -- http://code.google.com/p/xmonad/issues/detail?id=228
 
 -- Specify a workspace(s) to use focusFollowsMouse on (such as for use with gimp):
 -- We will disable follow-mouse on all but the last:
