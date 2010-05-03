@@ -47,7 +47,7 @@ myManageHook = composeAll
     , className =? "Skype.real"           --> doCenterFloat
     , className =? "Tsclient"             --> doFloat
     , className =? "VirtualBox"           --> doFloat
-    , className =? "Thunderbird-bin"      --> doF (W.shift "1") -- open thunderbird on first work-space
+    , className =? "Thunderbird"          --> doF (W.shift "1") -- open thunderbird on first work-space
     , isSplash                            --> doIgnore
     , resource  =? "desktop_window"       --> doIgnore
     , (title =? "Top Expanded Edge Panel"
