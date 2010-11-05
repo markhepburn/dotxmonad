@@ -44,7 +44,7 @@ myManageHook = composeAll
     -- that quick-search box used by gmarks in firefox:
     , (title    =? "Quick Search"
        <&&> className =? "Firefox")       --> doFloat
-    , className =? "Skype.real"           --> doCenterFloat
+    , className =? "Skype"                --> doCenterFloat
     , className =? "Tsclient"             --> doFloat
     , className =? "VirtualBox"           --> doFloat
     , className =? "Thunderbird"          --> doF (W.shift "1") -- open thunderbird on first work-space
