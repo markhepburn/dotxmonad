@@ -50,6 +50,7 @@ myManageHook = composeAll
     , className =? "Tsclient"             --> doFloat
     , className =? "VirtualBox"           --> doFloat
     , className =? "Thunderbird"          --> doF (W.shift "1") -- open thunderbird on first work-space
+    , className =? "Unity-2d-panel"       --> doIgnore
     , isSplash                            --> doIgnore
     , resource  =? "desktop_window"       --> doIgnore
     , (title =? "Top Expanded Edge Panel"
