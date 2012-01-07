@@ -1,13 +1,11 @@
-import Control.Monad              (when)
-import Data.Monoid                (mappend, All (All))
 import XMonad
 import XMonad.Actions.CycleWS     (nextWS, prevWS, shiftToNext, shiftToPrev)
 import XMonad.Config.Gnome        (gnomeConfig)
 import XMonad.Hooks.ManageHelpers (doCenterFloat, (/=?), isInProperty, isFullscreen, (-?>), doFullFloat, composeOne)
 import XMonad.Hooks.SetWMName     (setWMName)
+import XMonad.Layout.Fullscreen   (fullscreenEventHook, fullscreenManageHook)
 import XMonad.Layout.MagicFocus   (followOnlyIf, disableFollowOnWS)
 import XMonad.Layout.NoBorders    (smartBorders)
-import XMonad.Util.Run            (safeSpawn)
  
 import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
@@ -71,49 +69,12 @@ followEventHook = followOnlyIf $ disableFollowOnWS allButLastWS
     where allButLastWS = init allWS
           allWS        = workspaces gnomeConfig
 
--- Full-screen support (eg, for Chrome); there's apparently a patch
--- for XMonad.Hooks.EwmhDesktops, but it hasn't been incorporated yet
--- so this does the job.  From
--- http://code.google.com/p/xmonad/issues/detail?id=339
-
--- Helper functions to fullscreen the window:
-fullFloat, tileWin :: Window -> X ()
-fullFloat w = windows $ W.float w r
-    where r = W.RationalRect 0 0 1 1
-tileWin w = windows $ W.sink w
-
-fullscreenEventHook :: Event -> X All
-fullscreenEventHook (ClientMessageEvent _ _ _ dpy win typ dat) = do
-  state  <- getAtom "_NET_WM_STATE"
-  fullsc <- getAtom "_NET_WM_STATE_FULLSCREEN"
-  isFull <- runQuery isFullscreen win
-
-  -- Constants for the _NET_WM_STATE protocol
-  let remove = 0
-      add    = 1
-      toggle = 2
-      -- The ATOM property type for changeProperty
-      ptype  = 4
-      action = head dat
-
-  when (typ == state && (fromIntegral fullsc) `elem` tail dat) $ do
-    when (action == add || (action == toggle && not isFull)) $ do
-         io $ changeProperty32 dpy win state ptype propModeReplace [fromIntegral fullsc]
-         fullFloat win
-    when (head dat == remove || (action == toggle && isFull)) $ do
-         io $ changeProperty32 dpy win state ptype propModeReplace []
-         tileWin win
-
-  -- It shouldn't be necessary for xmonad to do anything more with this event
-  return $ All False
-fullscreenEventHook _ = return $ All True
-
 main = spawn "xcompmgr" >> myConfig
     where myConfig = xmonad $ gnomeConfig {
          terminal          = "urxvt"
        , layoutHook        = smartBorders $ layoutHook gnomeConfig
-       , handleEventHook   = handleEventHook gnomeConfig `mappend` followEventHook `mappend` fullscreenEventHook
-       , manageHook        = myManageHook <+> manageHook gnomeConfig
+       , handleEventHook   = handleEventHook gnomeConfig <+> followEventHook <+> fullscreenEventHook
+       , manageHook        = myManageHook <+> fullscreenManageHook <+> manageHook gnomeConfig
        , startupHook       = startupHook gnomeConfig >> setWMName "LG3D"
        , focusFollowsMouse = False
        , normalBorderColor = "#dddddd" -- not sold on the default "grey" colour
