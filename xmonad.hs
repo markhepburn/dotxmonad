@@ -3,10 +3,10 @@ import XMonad.Actions.CycleWS     (nextWS, prevWS, shiftToNext, shiftToPrev)
 import XMonad.Config.Gnome        (gnomeConfig)
 import XMonad.Hooks.ManageHelpers (doCenterFloat, (/=?), isInProperty, isFullscreen, (-?>), doFullFloat, composeOne)
 import XMonad.Hooks.SetWMName     (setWMName)
-import XMonad.Layout.Fullscreen   (fullscreenEventHook, fullscreenManageHook)
+import XMonad.Layout.Fullscreen   (fullscreenEventHook, fullscreenManageHook, fullscreenFull, fullscreenFloat)
 import XMonad.Layout.MagicFocus   (followOnlyIf, disableFollowOnWS)
 import XMonad.Layout.NoBorders    (smartBorders)
- 
+
 import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
 
@@ -25,7 +25,7 @@ isSplash = isInProperty "_NET_WM_WINDOW_TYPE" "_NET_WM_WINDOW_TYPE_SPLASH"
 
 ------------------------------------------------------------------------
 -- Window rules:
- 
+
 -- To find the property name associated with a program, use
 -- > xprop | grep WM_CLASS
 -- and click on the client you're interested in.
@@ -72,7 +72,7 @@ followEventHook = followOnlyIf $ disableFollowOnWS allButLastWS
 main = spawn "xcompmgr" >> myConfig
     where myConfig = xmonad $ gnomeConfig {
          terminal          = "urxvt"
-       , layoutHook        = smartBorders $ layoutHook gnomeConfig
+       , layoutHook        = (fullscreenFloat . fullscreenFull) $ smartBorders $ layoutHook gnomeConfig
        , handleEventHook   = handleEventHook gnomeConfig <+> followEventHook <+> fullscreenEventHook
        , manageHook        = myManageHook <+> fullscreenManageHook <+> manageHook gnomeConfig
        , startupHook       = startupHook gnomeConfig >> setWMName "LG3D"
