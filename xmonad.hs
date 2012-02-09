@@ -6,9 +6,25 @@ import XMonad.Hooks.SetWMName     (setWMName)
 import XMonad.Layout.Fullscreen   (fullscreenEventHook, fullscreenManageHook, fullscreenFull, fullscreenFloat)
 import XMonad.Layout.MagicFocus   (followOnlyIf, disableFollowOnWS)
 import XMonad.Layout.NoBorders    (smartBorders)
+import XMonad.Prompt              (defaultXPConfig, XPConfig(..), XPPosition(Top))
+import XMonad.Prompt.Shell        (shellPrompt)
 
 import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
+
+------------------------------------------------------------------------
+-- Prompt setup:
+myPrompt = defaultXPConfig {
+             position    = Top
+           , font        = "xft:Consolas-14"
+           , height      = 24
+           -- Zenburn!:
+           , bgColor     = "#3F3F3F"
+           , fgColor     = "#EFEFEF"
+           , fgHLight    = "#000D18"
+           , bgHLight    = "#8FAF9F"
+           , borderColor = "#719E7F"
+           }
 
 ------------------------------------------------------------------------
 -- Key bindings.
@@ -19,6 +35,8 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
     , ((modMask,               xK_bracketleft ),  prevWS     )
     , ((modMask .|. shiftMask, xK_bracketright),  shiftToNext)
     , ((modMask .|. shiftMask, xK_bracketleft ),  shiftToPrev)
+    -- shell prompt:
+    , ((modMask .|. shiftMask, xK_p),    shellPrompt myPrompt)
     ]
 
 isSplash = isInProperty "_NET_WM_WINDOW_TYPE" "_NET_WM_WINDOW_TYPE_SPLASH"
