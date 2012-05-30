@@ -95,6 +95,6 @@ main = spawn "xcompmgr" >> myConfig
        , manageHook        = myManageHook <+> fullscreenManageHook <+> manageHook gnomeConfig
        , startupHook       = startupHook gnomeConfig >> setWMName "LG3D"
        , focusFollowsMouse = False
-       , normalBorderColor = "#dddddd" -- not sold on the default "grey" colour
+       , normalBorderColor = "#DFD7CF" -- not sold on the default "grey" colour
        , keys              = \c -> myKeys c `M.union` keys gnomeConfig c
        }
