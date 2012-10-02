@@ -89,12 +89,13 @@ followEventHook = followOnlyIf $ disableFollowOnWS allButLastWS
 
 main = spawn "xcompmgr" >> myConfig
     where myConfig = xmonad $ gnomeConfig {
-         terminal          = "gnome-terminal"
-       , layoutHook        = (fullscreenFloat . fullscreenFull) $ smartBorders $ layoutHook gnomeConfig
-       , handleEventHook   = handleEventHook gnomeConfig <+> followEventHook <+> fullscreenEventHook
-       , manageHook        = myManageHook <+> fullscreenManageHook <+> manageHook gnomeConfig
-       , startupHook       = startupHook gnomeConfig >> setWMName "LG3D"
-       , focusFollowsMouse = False
-       , normalBorderColor = "#413F3B" -- Blend in with the ubuntu "Ambiance" theme
-       , keys              = \c -> myKeys c `M.union` keys gnomeConfig c
+         terminal           = "urxvt"
+       , layoutHook         = (fullscreenFloat . fullscreenFull) $ smartBorders $ layoutHook gnomeConfig
+       , handleEventHook    = handleEventHook gnomeConfig <+> followEventHook <+> fullscreenEventHook
+       , manageHook         = myManageHook <+> fullscreenManageHook <+> manageHook gnomeConfig
+       , startupHook        = startupHook gnomeConfig >> setWMName "LG3D"
+       , focusFollowsMouse  = False
+       , normalBorderColor  = "#413F3B" -- Blend in with the ubuntu "Ambiance" theme
+       , focusedBorderColor = "#719E7F" -- Zenburn selected border
+       , keys               = \c -> myKeys c `M.union` keys gnomeConfig c
        }
