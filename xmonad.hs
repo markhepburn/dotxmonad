@@ -1,13 +1,14 @@
 import XMonad
-import XMonad.Actions.CycleWS     (nextWS, prevWS, shiftToNext, shiftToPrev)
-import XMonad.Config.Gnome        (gnomeConfig)
-import XMonad.Hooks.ManageHelpers (doCenterFloat, (/=?), isInProperty, isFullscreen, (-?>), doFullFloat, composeOne)
-import XMonad.Hooks.SetWMName     (setWMName)
-import XMonad.Layout.Fullscreen   (fullscreenEventHook, fullscreenManageHook, fullscreenFull, fullscreenFloat)
-import XMonad.Layout.MagicFocus   (followOnlyIf, disableFollowOnWS)
-import XMonad.Layout.NoBorders    (smartBorders)
-import XMonad.Prompt              (defaultXPConfig, XPConfig(..), XPPosition(Top))
-import XMonad.Prompt.Shell        (shellPrompt)
+import XMonad.Actions.CycleWS         (nextWS, prevWS, shiftToNext, shiftToPrev)
+import XMonad.Actions.GroupNavigation (nextMatch, historyHook, Direction(History))
+import XMonad.Config.Gnome            (gnomeConfig)
+import XMonad.Hooks.ManageHelpers     (doCenterFloat, (/=?), isInProperty, isFullscreen, (-?>), doFullFloat, composeOne)
+import XMonad.Hooks.SetWMName         (setWMName)
+import XMonad.Layout.Fullscreen       (fullscreenEventHook, fullscreenManageHook, fullscreenFull, fullscreenFloat)
+import XMonad.Layout.MagicFocus       (followOnlyIf, disableFollowOnWS)
+import XMonad.Layout.NoBorders        (smartBorders)
+import XMonad.Prompt                  (defaultXPConfig, XPConfig(..), XPPosition(Top))
+import XMonad.Prompt.Shell            (shellPrompt)
 
 import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
@@ -35,6 +36,8 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
     , ((modMask,               xK_bracketleft ),  prevWS     )
     , ((modMask .|. shiftMask, xK_bracketright),  shiftToNext)
     , ((modMask .|. shiftMask, xK_bracketleft ),  shiftToPrev)
+    -- History -- pop back to most-recently-used focus:
+    , ((modMask .|. shiftMask, xK_m),    nextMatch History (return True))
     -- shell prompt:
     , ((modMask .|. shiftMask, xK_p),    shellPrompt myPrompt)
     ]
@@ -91,6 +94,7 @@ main = spawn "xcompmgr" >> myConfig
     where myConfig = xmonad $ gnomeConfig {
          terminal           = "roxterm"
        , layoutHook         = (fullscreenFloat . fullscreenFull) $ smartBorders $ layoutHook gnomeConfig
+       , logHook            = historyHook
        , handleEventHook    = handleEventHook gnomeConfig <+> followEventHook <+> fullscreenEventHook
        , manageHook         = myManageHook <+> fullscreenManageHook <+> manageHook gnomeConfig
        , startupHook        = startupHook gnomeConfig >> setWMName "LG3D"
