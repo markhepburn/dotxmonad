@@ -2,6 +2,7 @@ import XMonad
 import XMonad.Actions.CycleWS         (nextWS, prevWS, shiftToNext, shiftToPrev)
 import XMonad.Actions.GroupNavigation (nextMatch, historyHook, Direction(History))
 import XMonad.Config.Gnome            (gnomeConfig)
+import XMonad.Hooks.FadeInactive
 import XMonad.Hooks.ManageHelpers     (doCenterFloat, (/=?), isInProperty, isFullscreen, (-?>), doFullFloat, composeOne)
 import XMonad.Hooks.SetWMName         (setWMName)
 import XMonad.Layout.Fullscreen       (fullscreenEventHook, fullscreenManageHook, fullscreenFull, fullscreenFloat)
@@ -94,12 +95,11 @@ main = spawn "xcompmgr" >> myConfig
     where myConfig = xmonad $ gnomeConfig {
          terminal           = "roxterm"
        , layoutHook         = (fullscreenFloat . fullscreenFull) $ smartBorders $ layoutHook gnomeConfig
-       , logHook            = historyHook
+       , logHook            = historyHook <+> fadeInactiveLogHook 0.85
        , handleEventHook    = handleEventHook gnomeConfig <+> followEventHook <+> fullscreenEventHook
        , manageHook         = myManageHook <+> fullscreenManageHook <+> manageHook gnomeConfig
        , startupHook        = startupHook gnomeConfig >> setWMName "LG3D"
        , focusFollowsMouse  = False
-       , normalBorderColor  = "#413F3B" -- Blend in with the ubuntu "Ambiance" theme
-       , focusedBorderColor = "#719E7F" -- Zenburn selected border
+       , borderWidth        = 0 -- No borders; fade inactive windows instead (see fadeInactiveLogHook)
        , keys               = \c -> myKeys c `M.union` keys gnomeConfig c
        }
