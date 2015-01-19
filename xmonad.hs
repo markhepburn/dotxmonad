@@ -57,6 +57,7 @@ myManageHook = composeAll
     , className =? "File-roller"          --> doFloat
     , className =? "Gcalctool"            --> doFloat
     , className =? "Gimp"                 --> doFloat
+    , className =? "Gloobus-preview"      --> doFloat
     , className =? "Gmrun"                --> doCenterFloat
     , className =? "Gnome-typing-monitor" --> doFloat
     , className =? "MPlayer"              --> doFloat
