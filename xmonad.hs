@@ -7,7 +7,6 @@ import XMonad.Hooks.ManageHelpers     (doCenterFloat, (/=?), isInProperty, isFul
 import XMonad.Hooks.SetWMName         (setWMName)
 import XMonad.Layout.Fullscreen       (fullscreenEventHook, fullscreenManageHook, fullscreenFull, fullscreenFloat)
 import XMonad.Layout.MagicFocus       (followOnlyIf, disableFollowOnWS)
-import XMonad.Layout.NoBorders        (smartBorders)
 import XMonad.Prompt                  (defaultXPConfig, XPConfig(..), XPPosition(Top))
 import XMonad.Prompt.Shell            (shellPrompt)
 
@@ -95,7 +94,7 @@ followEventHook = followOnlyIf $ disableFollowOnWS allButLastWS
 main = spawn "xcompmgr" >> myConfig
     where myConfig = xmonad $ gnomeConfig {
          terminal           = "roxterm"
-       , layoutHook         = (fullscreenFloat . fullscreenFull) $ smartBorders $ layoutHook gnomeConfig
+       , layoutHook         = (fullscreenFloat . fullscreenFull) $ layoutHook gnomeConfig
        , logHook            = historyHook <+> fadeInactiveLogHook 0.85
        , handleEventHook    = handleEventHook gnomeConfig <+> followEventHook <+> fullscreenEventHook
        , manageHook         = myManageHook <+> fullscreenManageHook <+> manageHook gnomeConfig
