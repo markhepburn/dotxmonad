@@ -14,6 +14,9 @@ import XMonad.Prompt.Shell            (shellPrompt)
 import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
 
+import Control.Monad
+import Data.Maybe
+
 ------------------------------------------------------------------------
 -- Prompt setup:
 myPrompt = defaultXPConfig {
@@ -86,6 +89,22 @@ myManageHook = composeAll
     composeOne [ isFullscreen -?> doFullFloat ] -- Fix flash fullscreen; see
                                                 -- http://code.google.com/p/xmonad/issues/detail?id=228
 
+addNETSupported :: Atom -> X ()
+addNETSupported x   = withDisplay $ \dpy -> do
+    r               <- asks theRoot
+    a_NET_SUPPORTED <- getAtom "_NET_SUPPORTED"
+    a               <- getAtom "ATOM"
+    liftIO $ do
+        sup <- (join . maybeToList) <$> getWindowProperty32 dpy a_NET_SUPPORTED r
+        when (fromIntegral x `notElem` sup) $
+          changeProperty32 dpy r a_NET_SUPPORTED a propModeAppend [fromIntegral x]
+
+addEWMHFullscreen :: X ()
+addEWMHFullscreen   = do
+    wms <- getAtom "_NET_WM_STATE"
+    wfs <- getAtom "_NET_WM_STATE_FULLSCREEN"
+    mapM_ addNETSupported [wms, wfs]
+
 -- Specify a workspace(s) to use focusFollowsMouse on (such as for use with gimp):
 -- We will disable follow-mouse on all but the last:
 followEventHook = followOnlyIf $ disableFollowOnWS allButLastWS
@@ -99,7 +118,7 @@ main = spawn "xcompmgr" >> myConfig
        , logHook            = historyHook <+> fadeInactiveLogHook 0.85
        , handleEventHook    = handleEventHook gnomeConfig <+> followEventHook <+> fullscreenEventHook
        , manageHook         = myManageHook <+> fullscreenManageHook <+> manageHook gnomeConfig
-       , startupHook        = startupHook gnomeConfig >> setWMName "LG3D"
+       , startupHook        = startupHook gnomeConfig >> setWMName "LG3D" >> addEWMHFullscreen
        , focusFollowsMouse  = False
        , borderWidth        = 0 -- No borders; fade inactive windows instead (see fadeInactiveLogHook)
        , keys               = \c -> myKeys c `M.union` keys gnomeConfig c
