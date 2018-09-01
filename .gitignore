@@ -4,3 +4,5 @@
 xmonad-i386-linux
 /history
 /xmonad-x86_64-linux
+/xmonad.state
+/prompt-history
