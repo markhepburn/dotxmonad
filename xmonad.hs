@@ -21,7 +21,7 @@ import Data.Maybe
 myPrompt = defaultXPConfig {
              position    = Top
            , font        = "xft:Consolas-14"
-           , height      = 24
+           , height      = 40
            -- Zenburn!:
            , bgColor     = "#3F3F3F"
            , fgColor     = "#EFEFEF"
@@ -112,7 +112,7 @@ followEventHook = followOnlyIf $ disableFollowOnWS allButLastWS
 
 main = spawn "xcompmgr" >> myConfig
     where myConfig = xmonad $ gnomeConfig {
-         terminal           = "roxterm"
+         terminal           = "urxvt"
        , layoutHook         = (fullscreenFloat . fullscreenFull) $ layoutHook gnomeConfig
        , logHook            = historyHook <+> fadeInactiveLogHook 0.85
        , handleEventHook    = handleEventHook gnomeConfig <+> followEventHook <+> fullscreenEventHook
