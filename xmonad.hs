@@ -112,7 +112,7 @@ followEventHook = followOnlyIf $ disableFollowOnWS allButLastWS
 
 main = spawn "xcompmgr" >> myConfig
     where myConfig = xmonad $ gnomeConfig {
-         terminal           = "urxvt"
+         terminal           = "roxterm"
        , layoutHook         = (fullscreenFloat . fullscreenFull) $ layoutHook gnomeConfig
        , logHook            = historyHook <+> fadeInactiveLogHook 0.85
        , handleEventHook    = handleEventHook gnomeConfig <+> followEventHook <+> fullscreenEventHook
