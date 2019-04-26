@@ -2,6 +2,7 @@ import XMonad
 import XMonad.Actions.CycleWS         (nextWS, prevWS, shiftToNext, shiftToPrev)
 import XMonad.Actions.GroupNavigation (nextMatch, historyHook, Direction(History))
 import XMonad.Config.Gnome            (gnomeConfig)
+import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.FadeInactive
 import XMonad.Hooks.ManageHelpers     (doCenterFloat, (/=?), isInProperty, isFullscreen, (-?>), doFullFloat, composeOne)
 import XMonad.Hooks.SetWMName         (setWMName)
@@ -9,12 +10,14 @@ import XMonad.Layout.Fullscreen       (fullscreenEventHook, fullscreenManageHook
 import XMonad.Layout.MagicFocus       (followOnlyIf, disableFollowOnWS)
 import XMonad.Prompt                  (defaultXPConfig, XPConfig(..), XPPosition(Top))
 import XMonad.Prompt.Shell            (shellPrompt)
+import XMonad.Util.Run                (spawnPipe)
 
 import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
 
 import Control.Monad
 import Data.Maybe
+import System.IO (hPutStrLn)
 
 ------------------------------------------------------------------------
 -- Prompt setup:
@@ -73,6 +76,7 @@ myManageHook = composeAll
     , className =? "Tsclient"             --> doFloat
     , className =? "VirtualBox"           --> doFloat
     , className =? "Thunderbird"          --> doF (W.shift "1") -- open thunderbird on first work-space
+    , resource  =? "stalonetray"          --> doIgnore
     , className =? "Unity-2d-panel"       --> doIgnore
     , isSplash                            --> doIgnore
     , resource  =? "desktop_window"       --> doIgnore
@@ -110,15 +114,37 @@ followEventHook = followOnlyIf $ disableFollowOnWS allButLastWS
     where allButLastWS = init allWS
           allWS        = workspaces gnomeConfig
 
-main = spawn "xcompmgr" >> myConfig
-    where myConfig = xmonad $ gnomeConfig {
-         terminal           = "roxterm"
-       , layoutHook         = (fullscreenFloat . fullscreenFull) $ layoutHook gnomeConfig
-       , logHook            = historyHook <+> fadeInactiveLogHook 0.85
-       , handleEventHook    = handleEventHook gnomeConfig <+> followEventHook <+> fullscreenEventHook
-       , manageHook         = myManageHook <+> fullscreenManageHook <+> manageHook gnomeConfig
-       , startupHook        = startupHook gnomeConfig >> setWMName "LG3D" >> addEWMHFullscreen
-       , focusFollowsMouse  = False
-       , borderWidth        = 0 -- No borders; fade inactive windows instead (see fadeInactiveLogHook)
-       , keys               = \c -> myKeys c `M.union` keys gnomeConfig c
-       }
+myTitleColor     = "#eeeeee"  -- color of window title
+myTitleLength    = 80         -- truncate window title to this length
+myCurrentWSColor = "#e6744c"  -- color of active workspace
+myVisibleWSColor = "#c185a7"  -- color of inactive workspace
+myUrgentWSColor  = "#cc0000"  -- color of workspace with 'urgent' window
+myCurrentWSLeft  = "["        -- wrap active workspace with these
+myCurrentWSRight = "]"
+myVisibleWSLeft  = "("        -- wrap inactive workspace with these
+myVisibleWSRight = ")"
+myUrgentWSLeft  = "{"         -- wrap urgent workspace with these
+myUrgentWSRight = "}"
+
+main = do
+  xmproc <- spawnPipe "xmobar ~/.xmonad/xmobarrc"
+  xmonad $ gnomeConfig {
+    terminal           = "roxterm"
+    , layoutHook         = (fullscreenFloat . fullscreenFull) $ layoutHook gnomeConfig
+    , logHook            = historyHook <+> fadeInactiveLogHook 0.85 <+> dynamicLogWithPP xmobarPP {
+        ppOutput = hPutStrLn xmproc
+        , ppTitle = xmobarColor myTitleColor "" . shorten myTitleLength
+        , ppCurrent = xmobarColor myCurrentWSColor ""
+                      . wrap myCurrentWSLeft myCurrentWSRight
+        , ppVisible = xmobarColor myVisibleWSColor ""
+                      . wrap myVisibleWSLeft myVisibleWSRight
+        , ppUrgent = xmobarColor myUrgentWSColor ""
+                     . wrap myUrgentWSLeft myUrgentWSRight
+        }
+    , handleEventHook    = handleEventHook gnomeConfig <+> followEventHook <+> fullscreenEventHook
+    , manageHook         = myManageHook <+> fullscreenManageHook <+> manageHook gnomeConfig
+    , startupHook        = startupHook gnomeConfig >> setWMName "LG3D" >> addEWMHFullscreen >> spawn "~/.xmonad/startup-hook"
+    , focusFollowsMouse  = False
+    , borderWidth        = 0 -- No borders; fade inactive windows instead (see fadeInactiveLogHook)
+    , keys               = \c -> myKeys c `M.union` keys gnomeConfig c
+    }
