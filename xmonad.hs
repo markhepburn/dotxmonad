@@ -6,6 +6,7 @@ import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.FadeInactive
 import XMonad.Hooks.ManageHelpers     (doCenterFloat, (/=?), isInProperty, isFullscreen, (-?>), doFullFloat, composeOne)
 import XMonad.Hooks.SetWMName         (setWMName)
+import XMonad.Hooks.UrgencyHook       (focusUrgent, withUrgencyHook, NoUrgencyHook(..))
 import XMonad.Layout.Fullscreen       (fullscreenEventHook, fullscreenManageHook, fullscreenFull, fullscreenFloat)
 import XMonad.Layout.MagicFocus       (followOnlyIf, disableFollowOnWS)
 import XMonad.Prompt                  (defaultXPConfig, XPConfig(..), XPPosition(Top))
@@ -46,6 +47,8 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
     , ((modMask .|. shiftMask, xK_m),    nextMatch History (return True))
     -- shell prompt:
     , ((modMask .|. shiftMask, xK_p),    shellPrompt myPrompt)
+    -- Focus urgent:
+    , ((modMask,               xK_u),    focusUrgent)
     ]
 
 isSplash = isInProperty "_NET_WM_WINDOW_TYPE" "_NET_WM_WINDOW_TYPE_SPLASH"
@@ -128,7 +131,7 @@ myUrgentWSRight = "}"
 
 main = do
   xmproc <- spawnPipe "xmobar ~/.xmonad/xmobarrc"
-  xmonad $ defaultConfig {
+  xmonad $ withUrgencyHook NoUrgencyHook $ desktopConfig {
     terminal           = "roxterm"
     , layoutHook         = (fullscreenFloat . fullscreenFull) $ layoutHook desktopConfig
     , logHook            = historyHook <+> fadeInactiveLogHook 0.85 <+> dynamicLogWithPP xmobarPP {
