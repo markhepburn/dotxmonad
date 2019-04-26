@@ -50,6 +50,8 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
     , ((modMask .|. shiftMask, xK_p),    shellPrompt myPrompt)
     -- Focus urgent:
     , ((modMask,               xK_u),    focusUrgent)
+    -- screensaver / lock:
+    , ((modMask .|. controlMask, xK_l),  spawn "gnome-screensaver-command -l")
     ]
 
 myAdditionalKeys = [
