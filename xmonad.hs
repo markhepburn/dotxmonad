@@ -1,7 +1,7 @@
 import XMonad
 import XMonad.Actions.CycleWS         (nextWS, prevWS, shiftToNext, shiftToPrev)
 import XMonad.Actions.GroupNavigation (nextMatch, historyHook, Direction(History))
-import XMonad.Config.Gnome            (gnomeConfig)
+import XMonad.Config.Desktop          (desktopConfig)
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.FadeInactive
 import XMonad.Hooks.ManageHelpers     (doCenterFloat, (/=?), isInProperty, isFullscreen, (-?>), doFullFloat, composeOne)
@@ -112,7 +112,7 @@ addEWMHFullscreen   = do
 -- We will disable follow-mouse on all but the last:
 followEventHook = followOnlyIf $ disableFollowOnWS allButLastWS
     where allButLastWS = init allWS
-          allWS        = workspaces gnomeConfig
+          allWS        = workspaces defaultConfig
 
 myTitleColor     = "#eeeeee"  -- color of window title
 myTitleLength    = 80         -- truncate window title to this length
@@ -128,9 +128,9 @@ myUrgentWSRight = "}"
 
 main = do
   xmproc <- spawnPipe "xmobar ~/.xmonad/xmobarrc"
-  xmonad $ gnomeConfig {
+  xmonad $ defaultConfig {
     terminal           = "roxterm"
-    , layoutHook         = (fullscreenFloat . fullscreenFull) $ layoutHook gnomeConfig
+    , layoutHook         = (fullscreenFloat . fullscreenFull) $ layoutHook desktopConfig
     , logHook            = historyHook <+> fadeInactiveLogHook 0.85 <+> dynamicLogWithPP xmobarPP {
         ppOutput = hPutStrLn xmproc
         , ppTitle = xmobarColor myTitleColor "" . shorten myTitleLength
@@ -141,10 +141,10 @@ main = do
         , ppUrgent = xmobarColor myUrgentWSColor ""
                      . wrap myUrgentWSLeft myUrgentWSRight
         }
-    , handleEventHook    = handleEventHook gnomeConfig <+> followEventHook <+> fullscreenEventHook
-    , manageHook         = myManageHook <+> fullscreenManageHook <+> manageHook gnomeConfig
-    , startupHook        = startupHook gnomeConfig >> setWMName "LG3D" >> addEWMHFullscreen >> spawn "~/.xmonad/startup-hook"
+    , handleEventHook    = handleEventHook desktopConfig <+> followEventHook <+> fullscreenEventHook
+    , manageHook         = myManageHook <+> fullscreenManageHook <+> manageHook desktopConfig
+    , startupHook        = startupHook desktopConfig >> setWMName "LG3D" >> addEWMHFullscreen >> spawn "~/.xmonad/startup-hook"
     , focusFollowsMouse  = False
     , borderWidth        = 0 -- No borders; fade inactive windows instead (see fadeInactiveLogHook)
-    , keys               = \c -> myKeys c `M.union` keys gnomeConfig c
+    , keys               = \c -> myKeys c `M.union` keys desktopConfig c
     }
