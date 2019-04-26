@@ -46,7 +46,7 @@ Config {
     -- based upon your specific hardware. Or, for a desktop you may want
     -- to just remove this section entirely.
     Run Battery [
-      "-t", "<acstatus>: <left>%",
+      "-t", "<acstatus>: <left>% / <timeleft>",
       "--",
       "-O", "AC",
       "-o", "Bat",
