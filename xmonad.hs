@@ -12,6 +12,7 @@ import XMonad.Layout.MagicFocus       (followOnlyIf, disableFollowOnWS)
 import XMonad.Prompt                  (defaultXPConfig, XPConfig(..), XPPosition(Top))
 import XMonad.Prompt.Shell            (shellPrompt)
 import XMonad.Util.Run                (spawnPipe)
+import XMonad.Util.EZConfig           (additionalKeysP)
 
 import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
@@ -50,6 +51,16 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
     -- Focus urgent:
     , ((modMask,               xK_u),    focusUrgent)
     ]
+
+myAdditionalKeys = [
+  -- Volume control:
+    ("<XF86AudioRaiseVolume>", spawn "pactl set-sink-volume @DEFAULT_SINK@ +1.5%" )
+  , ("<XF86AudioLowerVolume>", spawn "pactl set-sink-volume @DEFAULT_SINK@  -1.5%")
+  , ("<XF86AudioMute>",        spawn "pactl set-sink-mute @DEFAULT_SINK@ toggle"  )
+  -- Brightness control; install https://github.com/Ventto/lux/
+  , ("<XF86MonBrightnessUp>",  spawn "lux -a 5%")
+  , ("<XF86MonBrightnessDown>", spawn "lux -s 5%")
+  ]
 
 isSplash = isInProperty "_NET_WM_WINDOW_TYPE" "_NET_WM_WINDOW_TYPE_SPLASH"
 
@@ -150,4 +161,4 @@ main = do
     , focusFollowsMouse  = False
     , borderWidth        = 0 -- No borders; fade inactive windows instead (see fadeInactiveLogHook)
     , keys               = \c -> myKeys c `M.union` keys desktopConfig c
-    }
+    } `additionalKeysP` myAdditionalKeys

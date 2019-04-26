@@ -59,6 +59,9 @@ Config {
     -- in Debian and derivatives like Ubuntu.
     Run Com "/bin/bash" ["-c", "~/.xmonad/get-volume"] "myvolume" 10,
 
+    -- Brightness, via lux (https://github.com/Ventto/lux/)
+    Run Com "/bin/bash" ["-c", "lux -G"] "mybrightness" 10,
+
     -- This line tells xmobar to read input from stdin. That's how we
     -- get the information that xmonad is sending it for display.
     Run StdinReader
@@ -73,5 +76,5 @@ Config {
 
    -- Overall template for the layout of the xmobar contents. Note that
    -- space is significant and can be used to add padding.
-   template = "%StdinReader% }{ %battery% | %cpu% | %memory% | Vol: %myvolume%    <fc=#ee9a00>%date%</fc>     "
+   template = "%StdinReader% }{ Br: %mybrightness% | %battery% | %cpu% | %memory% | Vol: %myvolume%    <fc=#ee9a00>%date%</fc>     "
 }
