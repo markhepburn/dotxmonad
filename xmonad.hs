@@ -145,7 +145,7 @@ myUrgentWSRight = "}"
 main = do
   xmproc <- spawnPipe "xmobar ~/.xmonad/xmobarrc"
   xmonad $ withUrgencyHook NoUrgencyHook $ desktopConfig {
-    terminal           = "roxterm"
+    terminal           = "alacritty"
     , layoutHook         = (fullscreenFloat . fullscreenFull) $ layoutHook desktopConfig
     , logHook            = historyHook <+> fadeInactiveLogHook 0.85 <+> dynamicLogWithPP xmobarPP {
         ppOutput = hPutStrLn xmproc
