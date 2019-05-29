@@ -48,6 +48,8 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
     , ((modMask .|. shiftMask, xK_m),    nextMatch History (return True))
     -- shell prompt:
     , ((modMask .|. shiftMask, xK_p),    shellPrompt myPrompt)
+    -- File explorer:
+    , ((modMask,               xK_Home), spawn "nautilus"    )
     -- Focus urgent:
     , ((modMask,               xK_u),    focusUrgent)
     -- screensaver / lock:
