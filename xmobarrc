@@ -47,11 +47,11 @@ Config {
     -- to just remove this section entirely.
     Run Battery [
       "-t", "<acstatus>: <left>% / <timeleft>",
+      "-l", "red",
+      "-L", "10",
       "--",
       "-O", "AC",
-      "-o", "Bat",
-      "-h", "green",
-      "-l", "red"
+      "-o", "Bat"
     ] 10,
 
     -- To get volume information, we run a custom bash script.
