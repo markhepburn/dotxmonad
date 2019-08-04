@@ -149,7 +149,7 @@ myUrgentWSRight = "}"
 main = do
   xmproc <- spawnPipe "xmobar ~/.xmonad/xmobarrc"
   xmonad $ withUrgencyHook NoUrgencyHook $ desktopConfig {
-    terminal           = "alacritty"
+    terminal           = "alacritty -e tmux new-session -A -s main"
     , layoutHook         = (fullscreenFloat . fullscreenFull) $ layoutHook desktopConfig
     , logHook            = historyHook <+> fadeInactiveLogHook 0.85 <+> dynamicLogWithPP xmobarPP {
         ppOutput = hPutStrLn xmproc
