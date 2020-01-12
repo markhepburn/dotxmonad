@@ -34,7 +34,7 @@ fi
 
 # Bluetooth:
 if [ -z "$(pgrep blueman)" ] ; then
-    blueman &
+    blueman-applet &
 fi
 
 # On login, we unlock the ssh keychain so we're not prompted for
