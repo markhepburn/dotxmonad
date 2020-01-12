@@ -22,10 +22,10 @@ if [ -z "$(pgrep system-config-printer-applet)" ] ; then
     system-config-printer-applet &
 fi
 
-# Dropbox:
-if [ -z "$(pgrep dropbox)" ] ; then
-    dropbox start -i &
-fi
+# # Dropbox:
+# if [ -z "$(pgrep dropbox)" ] ; then
+#     dropbox start -i &
+# fi
 
 # Nextcloud (dropbox replacement)
 if [ -z "$(pgrep nextcloud)" ] ; then
