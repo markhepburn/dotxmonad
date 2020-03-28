@@ -44,6 +44,11 @@ fi
 export SSH_ASKPASS="/usr/bin/ssh-askpass"
 cat /dev/null | ssh-add &
 
+# Get screensaver set up (replacing gnome-screensaver)
+if [ -z $"$(pgrep xscreensaver)" ] ; then
+    xscreensaver -nosplash &
+fi
+
 # I disable the middle mouse button because otherwise I constantly
 # accidentally paste unwanted text in the middle of my code while scrolling.
 # Note that the id of the mouse device may be different depending on
