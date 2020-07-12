@@ -29,7 +29,7 @@ fi
 
 # Nextcloud (dropbox replacement)
 if [ -z "$(pgrep nextcloud)" ] ; then
-    nextcloud --background &
+    nextcloud &
 fi
 
 # Bluetooth:
