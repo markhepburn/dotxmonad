@@ -22,7 +22,7 @@ Config {
   -- of your screen to make it play nicely with stalonetray, which we
   -- want to be taking up the remainer of the space on the right side
   -- of your screen.
-  position = TopW L 94,
+  position = Top,
 
   -- list of commands which gather information about your system for
   -- presentation in the bar.
@@ -64,7 +64,10 @@ Config {
 
     -- This line tells xmobar to read input from stdin. That's how we
     -- get the information that xmonad is sending it for display.
-    Run StdinReader
+    Run StdinReader,
+
+    -- Generate an image that matches the current width of trayer, for padding:
+    Run Com "/bin/bash" ["-c", "~/.xmonad/padding-icon.sh", "panel"] "trayerpad" 10
    ],
 
    -- Separator character used to wrape variables in the xmobar template
@@ -76,5 +79,5 @@ Config {
 
    -- Overall template for the layout of the xmobar contents. Note that
    -- space is significant and can be used to add padding.
-   template = "%StdinReader% }{ %battery% | Br: %mybrightness% | %cpu% | %memory% | Vol: %myvolume%    <fc=#ee9a00>%date%</fc>     "
+   template = "%StdinReader% }{ %battery% | Br: %mybrightness% | %cpu% | %memory% | Vol: %myvolume%    <fc=#ee9a00>%date%</fc> %trayerpad%"
 }
