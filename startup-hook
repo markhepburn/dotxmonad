@@ -69,3 +69,6 @@ TOUCHPAD_ID=`xinput | grep 'Synaptics TouchPad' | cut -f 2 | cut -f 2 -d =`
 # xinput set-prop $TOUCHPAD_ID "Device Enabled" 0
 xinput set-prop $TOUCHPAD_ID "libinput Natural Scrolling Enabled" 1
 xinput set-prop $TOUCHPAD_ID "libinput Tapping Enabled" 1
+
+# first '-option' clears existing settings
+setxkbmap -option -option 'ctrl:nocaps,altwin:meta_win'
