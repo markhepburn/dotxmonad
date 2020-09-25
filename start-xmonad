@@ -79,6 +79,7 @@ trayer \
     --widthtype request \
     --heighttype pixel \
     --height 34 \
+    --padding 3 \
     --tint 0x2b2b2b \
     --alpha 0 \
     --transparent true \
