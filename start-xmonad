@@ -63,8 +63,8 @@ xrandr | grep 'DP-1 connected' | ifne xrandr --output DP-1 --auto --right-of eDP
 # LOAD SCREEN BACKGROUNDS
 #
 
-# To set your backgrounds, run nitrogren /path/to/images
-nitrogen --restore &
+# Set backgrounds; can also use ~/.fehbg to restore (if not using --randomize)
+feh --no-fehbg --bg-fill --randomize ~/.config/variety/Favorites/* &
 
 emacs --daemon &
 
