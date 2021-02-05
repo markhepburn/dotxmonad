@@ -33,7 +33,7 @@ if [ -z "$(pgrep nextcloud)" ] ; then
 fi
 
 # Bluetooth:
-if [ -z "$(pgrep blueman)" ] ; then
+if [ -z "$(pgrep blueman-applet)" ] ; then
     blueman-applet &
 fi
 
