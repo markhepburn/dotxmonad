@@ -73,6 +73,7 @@ emacs --daemon &
 #
 
 trayer \
+    --monitor primary \
     --edge top \
     --align right \
     --expand true \
