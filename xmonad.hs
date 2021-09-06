@@ -9,7 +9,7 @@ import XMonad.Hooks.SetWMName         (setWMName)
 import XMonad.Hooks.UrgencyHook       (focusUrgent, withUrgencyHook, NoUrgencyHook(..))
 import XMonad.Layout.Fullscreen       (fullscreenEventHook, fullscreenManageHook, fullscreenFull, fullscreenFloat)
 import XMonad.Layout.MagicFocus       (followOnlyIf, disableFollowOnWS)
-import XMonad.Prompt                  (defaultXPConfig, XPConfig(..), XPPosition(Top))
+import XMonad.Prompt                  (XPConfig(..), XPPosition(Top))
 import XMonad.Prompt.FuzzyMatch       (fuzzyMatch, fuzzySort)
 import XMonad.Prompt.Shell            (shellPrompt)
 import XMonad.Util.Run                (spawnPipe)
@@ -19,12 +19,13 @@ import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
 
 import Control.Monad
+import Data.List
 import Data.Maybe
 import System.IO (hPutStrLn)
 
 ------------------------------------------------------------------------
 -- Prompt setup:
-myPrompt = defaultXPConfig {
+myPrompt = def {
              position    = Top
            , font        = "xft:Consolas-14"
            , height      = 40
@@ -41,7 +42,7 @@ myPrompt = defaultXPConfig {
 
 ------------------------------------------------------------------------
 -- Key bindings.
-myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
+myKeys conf@XConfig {XMonad.modMask = modMask} = M.fromList
     -- Basic CycleWS setup (not using left/right because that clashes
     -- with browser history navigation):
     [ ((modMask,               xK_bracketright),  nextWS     )
@@ -122,7 +123,7 @@ addNETSupported x   = withDisplay $ \dpy -> do
     a_NET_SUPPORTED <- getAtom "_NET_SUPPORTED"
     a               <- getAtom "ATOM"
     liftIO $ do
-        sup <- (join . maybeToList) <$> getWindowProperty32 dpy a_NET_SUPPORTED r
+        sup <- join . maybeToList <$> getWindowProperty32 dpy a_NET_SUPPORTED r
         when (fromIntegral x `notElem` sup) $
           changeProperty32 dpy r a_NET_SUPPORTED a propModeAppend [fromIntegral x]
 
@@ -136,7 +137,7 @@ addEWMHFullscreen   = do
 -- We will disable follow-mouse on all but the last:
 followEventHook = followOnlyIf $ disableFollowOnWS allButLastWS
     where allButLastWS = init allWS
-          allWS        = workspaces defaultConfig
+          allWS        = workspaces def
 
 myTitleColor     = "#eeeeee"  -- color of window title
 myTitleLength    = 80         -- truncate window title to this length
@@ -150,6 +151,7 @@ myVisibleWSRight = ")"
 myUrgentWSLeft  = "{"         -- wrap urgent workspace with these
 myUrgentWSRight = "}"
 
+-- https://www.reddit.com/r/xmonad/comments/hlektm/installing_xmonad_with_ghcup_and_cabal/
 main = do
   xmproc <- spawnPipe "xmobar ~/.xmonad/xmobarrc"
   xmonad $ withUrgencyHook NoUrgencyHook $ desktopConfig {
