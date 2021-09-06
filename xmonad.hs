@@ -159,6 +159,7 @@ main = do
     , layoutHook         = (fullscreenFloat . fullscreenFull) $ layoutHook desktopConfig
     , logHook            = historyHook <+> fadeInactiveLogHook 0.85 <+> dynamicLogWithPP xmobarPP {
         ppOutput = hPutStrLn xmproc
+        , ppLayout = const ""
         , ppTitle = xmobarColor myTitleColor "" . shorten myTitleLength
         , ppCurrent = xmobarColor myCurrentWSColor ""
                       . wrap myCurrentWSLeft myCurrentWSRight
