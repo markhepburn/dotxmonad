@@ -10,6 +10,7 @@ import XMonad.Hooks.UrgencyHook       (focusUrgent, withUrgencyHook, NoUrgencyHo
 import XMonad.Layout.Fullscreen       (fullscreenEventHook, fullscreenManageHook, fullscreenFull, fullscreenFloat)
 import XMonad.Layout.MagicFocus       (followOnlyIf, disableFollowOnWS)
 import XMonad.Prompt                  (defaultXPConfig, XPConfig(..), XPPosition(Top))
+import XMonad.Prompt.FuzzyMatch       (fuzzyMatch, fuzzySort)
 import XMonad.Prompt.Shell            (shellPrompt)
 import XMonad.Util.Run                (spawnPipe)
 import XMonad.Util.EZConfig           (additionalKeysP)
@@ -27,6 +28,9 @@ myPrompt = defaultXPConfig {
              position    = Top
            , font        = "xft:Consolas-14"
            , height      = 40
+           -- Fuzzy match:
+           , searchPredicate = fuzzyMatch
+           , sorter        = fuzzySort
            -- Zenburn!:
            , bgColor     = "#3F3F3F"
            , fgColor     = "#EFEFEF"
