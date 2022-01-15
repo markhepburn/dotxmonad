@@ -76,4 +76,6 @@ xinput set-prop $TOUCHPAD_ID "libinput Natural Scrolling Enabled" 1
 xinput set-prop $TOUCHPAD_ID "libinput Tapping Enabled" 1
 
 # first '-option' clears existing settings
-setxkbmap -option -option 'ctrl:nocaps,altwin:meta_win'
+# setxkbmap -option -option 'ctrl:nocaps,altwin:meta_win'
+# Load xmodmap settings (instead of setxkbmap, which was causing some conflicts):
+xmodmap .Xmodmap
