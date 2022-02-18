@@ -79,3 +79,6 @@ xinput set-prop $TOUCHPAD_ID "libinput Tapping Enabled" 1
 # setxkbmap -option -option 'ctrl:nocaps,altwin:meta_win'
 # Load xmodmap settings (instead of setxkbmap, which was causing some conflicts):
 xmodmap .Xmodmap
+
+# Key modifications (Headphones audio control)
+xbindkeys
