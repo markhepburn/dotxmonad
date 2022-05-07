@@ -29,7 +29,9 @@ xrdb -merge .Xresources
 # if you prefer not to use any transparency, but it is likely to cause
 # ugly black fringing with some programs such as synapse that expect
 # transparency support.
-xcompmgr -n &
+# xcompmgr -n &
+picom -b                        # see ~/.config/picom/picom.conf
+
 
 #
 # SCREEN CONFIGURATION

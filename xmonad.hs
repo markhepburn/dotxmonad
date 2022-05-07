@@ -3,7 +3,6 @@ import XMonad.Actions.CycleWS         (nextWS, prevWS, shiftToNext, shiftToPrev)
 import XMonad.Actions.GroupNavigation (nextMatch, historyHook, Direction(History))
 import XMonad.Config.Desktop          (desktopConfig)
 import XMonad.Hooks.DynamicLog
-import XMonad.Hooks.FadeInactive
 import XMonad.Hooks.ManageHelpers     (doCenterFloat, (/=?), isInProperty, isFullscreen, (-?>), doFullFloat, composeOne)
 import XMonad.Hooks.SetWMName         (setWMName)
 import XMonad.Hooks.UrgencyHook       (focusUrgent, withUrgencyHook, NoUrgencyHook(..))
@@ -157,7 +156,7 @@ main = do
   xmonad $ withUrgencyHook NoUrgencyHook $ desktopConfig {
     terminal           = "alacritty -e tmux new-session -A -s main"
     , layoutHook         = (fullscreenFloat . fullscreenFull) $ layoutHook desktopConfig
-    , logHook            = historyHook <+> fadeInactiveLogHook 0.85 <+> dynamicLogWithPP xmobarPP {
+    , logHook            = historyHook <+> dynamicLogWithPP xmobarPP {
         ppOutput = hPutStrLn xmproc
         , ppLayout = const ""
         , ppTitle = xmobarColor myTitleColor "" . shorten myTitleLength
