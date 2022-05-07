@@ -46,8 +46,9 @@ fi
 # passphrases later. We pipe /dev/null to ssh-add to make it realize
 # it's not running in a terminal. Otherwise, it won't launch the prompt.
 
-export SSH_ASKPASS="/usr/bin/ssh-askpass"
-cat /dev/null | ssh-add &
+# Handled by gnome-keyring-daemon now, which actually seems to be functional as of 22.04!
+# export SSH_ASKPASS="/usr/bin/ssh-askpass"
+# cat /dev/null | ssh-add &
 
 # Set backgrounds; can also use ~/.fehbg to restore (if not using --randomize)
 # Moving this from start-xmonad, on a theory it may affect the "closing windows on non-primary monitor don't refresh"
