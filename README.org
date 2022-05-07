@@ -1,0 +1,12 @@
+#+OPTIONS: ^:{}
+https://www.reddit.com/r/xmonad/comments/hlektm/installing_xmonad_with_ghcup_and_cabal/
+
+cabal install xmonad
+cabal install --lib xmonad xmonad-contrib # make sure you also install xmonad as a lib so it compiles, not actually sure how to install the executable AND the lib
+#optionally you can install xmobar(and theoretically taffybar) using:
+cabal install -f with_xft -f with_xpm xmobar # because they default to false!  See other options in .cabal/packages/xmobar/...tar.gz
+
+Update: this no longer works for xmonad for me, and I don't have the
+smarts or patience to understand what cabal-install is doing.
+Following the instructions to just clone xmonad + xmonad-contrib and
+use stack worked just fine.

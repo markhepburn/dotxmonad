@@ -6,3 +6,6 @@ xmonad-i386-linux
 /xmonad-x86_64-linux
 /xmonad.state
 /prompt-history
+/.stack-work/
+/xmonad-contrib/
+/xmonad/
