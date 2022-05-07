@@ -63,7 +63,8 @@ xrandr | grep 'DP-1 connected' | ifne xrandr --output DP-1 --auto --right-of eDP
 # LOAD SCREEN BACKGROUNDS
 #
 
-~/Projects/emacs/src/emacs --daemon &
+# Handled by systemd; see systemctl --user status emacs
+# ~/Projects/emacs/src/emacs --daemon &
 
 #
 # STARTUP ICON TRAY
