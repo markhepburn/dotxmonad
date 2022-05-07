@@ -32,6 +32,11 @@ xrdb -merge .Xresources
 # xcompmgr -n &
 picom -b                        # see ~/.config/picom/picom.conf
 
+# apt-install xsecurelock xss-lock x11-xserver-utils
+export XSECURELOCK_SAVER=saver_blank
+export XSECURELOCK_DISCARD_FIRST_KEYPRESS=0
+xset s 300 5
+xss-lock -n /usr/lib/xsecurelock/dimmer -l -- xsecurelock &
 
 #
 # SCREEN CONFIGURATION
