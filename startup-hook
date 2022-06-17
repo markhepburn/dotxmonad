@@ -58,11 +58,6 @@ fi
 # Moving this from start-xmonad, on a theory it may affect the "closing windows on non-primary monitor don't refresh"
 feh --no-fehbg --bg-fill --randomize ~/.config/variety/Favorites/* &
 
-# Get screensaver set up (replacing gnome-screensaver)
-if [ -z $"$(pgrep xscreensaver)" ] ; then
-    xscreensaver -nosplash &
-fi
-
 # I disable the middle mouse button because otherwise I constantly
 # accidentally paste unwanted text in the middle of my code while scrolling.
 # Note that the id of the mouse device may be different depending on
