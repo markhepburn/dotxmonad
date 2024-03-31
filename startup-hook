@@ -35,6 +35,10 @@ fi
 # Bluetooth:
 if [ -z "$(pgrep blueman-applet)" ] ; then
     blueman-applet &
+    # Hack, see if this fixes headphones connection issues:
+    pactl load-module module-bluetooth-discover
+    # Not sure that it does, but unloading/reloading has fixed in the past
+    # https://askubuntu.com/a/689297
 fi
 
 if [ -z "$(pgrep signal-desktop)" ] ; then
