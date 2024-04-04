@@ -153,7 +153,7 @@ myUrgentWSRight = "}"
 
 -- https://www.reddit.com/r/xmonad/comments/hlektm/installing_xmonad_with_ghcup_and_cabal/
 main = do
-  xmproc <- spawnPipe "xmobar ~/.xmonad/xmobarrc"
+  xmproc <- spawnPipe "xmobar -D 180 ~/.xmonad/xmobarrc"
   xmonad $ withUrgencyHook NoUrgencyHook $ desktopConfig {
     terminal           = "alacritty -e tmux new-session -A -s main"
     , layoutHook         = (fullscreenFloat . fullscreenFull) $ layoutHook desktopConfig
