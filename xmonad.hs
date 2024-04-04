@@ -140,7 +140,7 @@ followEventHook = followOnlyIf $ disableFollowOnWS allButLastWS
           allWS        = workspaces def
 
 myTitleColor     = "#eeeeee"  -- color of window title
-myTitleLength    = 80         -- truncate window title to this length
+myTitleLength    = 70         -- truncate window title to this length
 myCurrentWSColor = "#e6744c"  -- color of active workspace
 myVisibleWSColor = "#c185a7"  -- color of inactive workspace
 myUrgentWSColor  = "#cc0000"  -- color of workspace with 'urgent' window
