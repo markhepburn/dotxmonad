@@ -14,19 +14,19 @@
 # it use the second card.
 
 str=`amixer sget Master,0`
-str1=${str#Simple*[}
-v1=${str1%%]*]}
+str1=${str#Simple*[}            # Remove shortest string matching 'Simple*[' at the start
+v1=${str1%%]*]}                 # Remove longest matching ']*]' at the end; Numeric value, with percent
 il=`expr index "$str1" [`
 o="off"
 mutel=''
-if [ ${str1:$il:3} == $o ]; then mutel='M'; fi
-s=${str1:0:1}
+# ${str1:$il:3}  # substring from $il above, for 3 chars
+if [ ${str1:$il:3} == $o ]; then mutel='M'; fi # unused, after all that -- could be removed
 str2=${str1#${str1:0:1}*[}
 str1=$str2
 str2=${str1#${str1:0:1}*[}
 ir=`expr index "$str2" [`
 muter=''
-if [ ${str2:0:3} = $o ]; then muter='[M]'; fi
+if [ ${str2:$ir:3} = $o ]; then muter='[M]'; fi
 v2=${str2%\]}
 v=${v1}\ $muter
 echo $v
