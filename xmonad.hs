@@ -105,6 +105,7 @@ myManageHook = composeAll
     , className =? "Unity-2d-panel"       --> doIgnore
     , isSplash                            --> doIgnore
     , resource  =? "desktop_window"       --> doIgnore
+    , resource  =? "xfce4-notifyd"        --> doIgnore
     , (title =? "Top Expanded Edge Panel"
        <&&> resource  =? "gnome-panel")   --> doIgnore
     , (title =? "Calendar"
