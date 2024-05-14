@@ -60,13 +60,14 @@ myKeys conf@XConfig {XMonad.modMask = modMask} = M.fromList
     , ((modMask,               xK_u),    focusUrgent)
     -- screensaver / lock:
     , ((modMask .|. controlMask, xK_l),  spawn "xset s activate")
+    , ((0, 0x1008FF01), spawn "amixer -q set Master toggle")
     ]
 
 myAdditionalKeys = [
   -- Volume control:
-    ("<XF86AudioRaiseVolume>", spawn "pactl set-sink-volume @DEFAULT_SINK@ +1.5%" )
-  , ("<XF86AudioLowerVolume>", spawn "pactl set-sink-volume @DEFAULT_SINK@  -1.5%")
-  , ("<XF86AudioMute>",        spawn "pactl set-sink-mute @DEFAULT_SINK@ toggle"  )
+    ("<XF86AudioRaiseVolume>", spawn "amixer -q Master set 2+" )
+  , ("<XF86AudioLowerVolume>", spawn "amixer -q Master set 2-")
+  , ("<XF86AudioMute>",        spawn "amixer -q Master set toggle"  )
   -- Brightness control; install https://github.com/Ventto/lux/
   , ("<XF86MonBrightnessUp>",  spawn "lux -a 5%")
   , ("<XF86MonBrightnessDown>", spawn "lux -s 5%")
