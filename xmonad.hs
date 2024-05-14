@@ -3,6 +3,7 @@ import XMonad.Actions.CycleWS         (nextWS, prevWS, shiftToNext, shiftToPrev)
 import XMonad.Actions.GroupNavigation (nextMatch, historyHook, Direction(History))
 import XMonad.Config.Desktop          (desktopConfig)
 import XMonad.Hooks.DynamicLog
+import XMonad.Hooks.EwmhDesktops      (ewmh, ewmhFullscreen)
 import XMonad.Hooks.ManageHelpers     (doCenterFloat, (/=?), isInProperty, isFullscreen, (-?>), doFullFloat, composeOne)
 import XMonad.Hooks.SetWMName         (setWMName)
 import XMonad.Hooks.UrgencyHook       (focusUrgent, withUrgencyHook, NoUrgencyHook(..))
@@ -119,22 +120,6 @@ myManageHook = composeAll
     composeOne [ isFullscreen -?> doFullFloat ] -- Fix flash fullscreen; see
                                                 -- http://code.google.com/p/xmonad/issues/detail?id=228
 
-addNETSupported :: Atom -> X ()
-addNETSupported x   = withDisplay $ \dpy -> do
-    r               <- asks theRoot
-    a_NET_SUPPORTED <- getAtom "_NET_SUPPORTED"
-    a               <- getAtom "ATOM"
-    liftIO $ do
-        sup <- join . maybeToList <$> getWindowProperty32 dpy a_NET_SUPPORTED r
-        when (fromIntegral x `notElem` sup) $
-          changeProperty32 dpy r a_NET_SUPPORTED a propModeAppend [fromIntegral x]
-
-addEWMHFullscreen :: X ()
-addEWMHFullscreen   = do
-    wms <- getAtom "_NET_WM_STATE"
-    wfs <- getAtom "_NET_WM_STATE_FULLSCREEN"
-    mapM_ addNETSupported [wms, wfs]
-
 -- Specify a workspace(s) to use focusFollowsMouse on (such as for use with gimp):
 -- We will disable follow-mouse on all but the last:
 followEventHook = followOnlyIf $ disableFollowOnWS allButLastWS
@@ -156,7 +141,7 @@ myUrgentWSRight = "}"
 -- https://www.reddit.com/r/xmonad/comments/hlektm/installing_xmonad_with_ghcup_and_cabal/
 main = do
   xmproc <- spawnPipe "xmobar -D 180 ~/.xmonad/xmobarrc"
-  xmonad $ withUrgencyHook NoUrgencyHook $ desktopConfig {
+  xmonad $ withUrgencyHook NoUrgencyHook $ ewmhFullscreen . ewmh $ desktopConfig {
     terminal           = "alacritty -e tmux new-session -A -s main"
     , layoutHook         = (fullscreenFloat . fullscreenFull) $ layoutHook desktopConfig
     , logHook            = historyHook <+> dynamicLogWithPP xmobarPP {
@@ -172,7 +157,7 @@ main = do
         }
     , handleEventHook    = handleEventHook desktopConfig <+> followEventHook <+> fullscreenEventHook
     , manageHook         = myManageHook <+> fullscreenManageHook <+> manageHook desktopConfig
-    , startupHook        = startupHook desktopConfig >> setWMName "LG3D" >> addEWMHFullscreen >> spawn "~/.xmonad/startup-hook"
+    , startupHook        = startupHook desktopConfig >> setWMName "LG3D" >> spawn "~/.xmonad/startup-hook"
     , focusFollowsMouse  = False
     , borderWidth        = 0 -- No borders; fade inactive windows instead (see fadeInactiveLogHook)
     , keys               = \c -> myKeys c `M.union` keys desktopConfig c
