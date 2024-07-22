@@ -143,6 +143,7 @@ myUrgentWSRight = "}"
 myXmobarPP :: PP
 myXmobarPP = def
   { ppLayout = const ""
+  , ppSep = " "
   , ppTitle = xmobarColor myTitleColor "" . shorten myTitleLength
   , ppCurrent = xmobarColor myCurrentWSColor ""
                 . wrap myCurrentWSLeft myCurrentWSRight
