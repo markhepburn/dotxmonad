@@ -71,6 +71,7 @@ myAdditionalKeys = [
     ("<XF86AudioRaiseVolume>", spawn "amixer -q Master set 2+" )
   , ("<XF86AudioLowerVolume>", spawn "amixer -q Master set 2-")
   , ("<XF86AudioMute>",        spawn "amixer -q Master set toggle"  )
+  , ("<XF86AudioMicMute>",     spawn "amixer -q set Capture toggle"  )
   -- Brightness control; install https://github.com/Ventto/lux/
   , ("<XF86MonBrightnessUp>",  spawn "lux -a 5%")
   , ("<XF86MonBrightnessDown>", spawn "lux -s 5%")
