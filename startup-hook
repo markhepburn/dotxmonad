@@ -27,9 +27,9 @@ fi
 #     dropbox start -i &
 # fi
 
-# Nextcloud (dropbox replacement)
-if [ -z "$(pgrep nextcloud)" ] ; then
-    nextcloud --background &
+# OpenCloud (Nextcloud replacement)
+if [ -z "$(pgrep OpenCloud)" ] ; then
+    OpenCloud.AppImage &
 fi
 
 # Bluetooth:
