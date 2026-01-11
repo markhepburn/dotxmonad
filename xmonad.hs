@@ -171,5 +171,6 @@ main = do
     , startupHook        = startupHook desktopConfig >> setWMName "LG3D" >> spawn "~/.xmonad/startup-hook"
     , focusFollowsMouse  = False
     , borderWidth        = 0 -- No borders; fade inactive windows instead (see fadeInactiveLogHook)
+    -- , modMask            = mod1Mask .|. mod4Mask  -- Alt+Win; slightly more cumbersome, avoids clashes of Alt-key usage
     , keys               = \c -> myKeys c `M.union` keys desktopConfig c
     } `additionalKeysP` myAdditionalKeys
