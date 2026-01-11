@@ -77,19 +77,19 @@ xrandr | grep 'DP-1 connected' | ifne xrandr --output DP-1 --auto --right-of eDP
 # STARTUP ICON TRAY
 #
 
-trayer \
-    --monitor primary \
-    --edge top \
-    --align right \
-    --expand true \
-    --widthtype request \
-    --heighttype pixel \
-    --height 34 \
-    --padding 3 \
-    --tint 0x2b2b2b \
-    --alpha 0 \
-    --transparent true \
-&
+# trayer \
+#     --monitor primary \
+#     --edge top \
+#     --align right \
+#     --expand true \
+#     --widthtype request \
+#     --heighttype pixel \
+#     --height 34 \
+#     --padding 3 \
+#     --tint 0x2b2b2b \
+#     --alpha 0 \
+#     --transparent true \
+# &
 
 # Run the gnome-keyring-daemon to avoid issues you otherwise may encounter
 # when using gnome applications which expect access to the keyring, such

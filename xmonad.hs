@@ -6,8 +6,6 @@ import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.EwmhDesktops      (ewmh, ewmhFullscreen)
 import XMonad.Hooks.ManageHelpers     (doCenterFloat, (/=?), isInProperty, isFullscreen, (-?>), doFullFloat, composeOne)
 import XMonad.Hooks.SetWMName         (setWMName)
-import XMonad.Hooks.StatusBar
-import XMonad.Hooks.StatusBar.PP
 import XMonad.Hooks.UrgencyHook       (focusUrgent, withUrgencyHook, NoUrgencyHook(..))
 import XMonad.Layout.Fullscreen       (fullscreenEventHook, fullscreenManageHook, fullscreenFull, fullscreenFloat)
 import XMonad.Layout.MagicFocus       (followOnlyIf, disableFollowOnWS)
@@ -142,18 +140,6 @@ myVisibleWSRight = ")"
 myUrgentWSLeft  = "{"         -- wrap urgent workspace with these
 myUrgentWSRight = "}"
 
-myXmobarPP :: PP
-myXmobarPP = def
-  { ppLayout = const ""
-  , ppSep = " "
-  , ppTitle = xmobarColor myTitleColor "" . shorten myTitleLength
-  , ppCurrent = xmobarColor myCurrentWSColor ""
-                . wrap myCurrentWSLeft myCurrentWSRight
-  , ppVisible = xmobarColor myVisibleWSColor ""
-                . wrap myVisibleWSLeft myVisibleWSRight
-  , ppUrgent = xmobarColor myUrgentWSColor ""
-               . wrap myUrgentWSLeft myUrgentWSRight
-  }
 
 -- https://www.reddit.com/r/xmonad/comments/hlektm/installing_xmonad_with_ghcup_and_cabal/
 -- Borrowing from https://xmonad.org/TUTORIAL.html#make-xmonad-and-xmobar-talk-to-each-other
@@ -162,7 +148,6 @@ main = do
     $ withUrgencyHook NoUrgencyHook
     $ ewmhFullscreen
     $ ewmh
-    $ withEasySB (statusBarProp "xmobar -D 180 ~/.xmonad/xmobarrc" (pure myXmobarPP)) defToggleStrutsKey
     $ desktopConfig {
     terminal           = "alacritty -e tmux new-session -A -s main"
     , layoutHook         = (fullscreenFloat . fullscreenFull) $ layoutHook desktopConfig
