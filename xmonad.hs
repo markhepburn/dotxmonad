@@ -59,6 +59,7 @@ myKeys conf@XConfig {XMonad.modMask = modMask} = M.fromList
     , ((modMask .|. shiftMask, xK_s),    spawn "flameshot gui")
     -- File explorer:
     , ((modMask,               xK_Home), spawn "nautilus"    )
+    , ((modMask .|. shiftMask, xK_d), spawn "nautilus Downloads"    )
     -- Focus urgent:
     , ((modMask,               xK_u),    focusUrgent)
     -- screensaver / lock:
